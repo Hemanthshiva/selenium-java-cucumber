@@ -1,0 +1,7 @@
+util/SeleniumHelper.class
+dto/UserDTO.class
+pages/HomePage.class
+pages/BasePage.class
+pages/LoginPage.class
+driverfactory/DriverFactory.class
+pages/ShoppingCartSummaryPage.class
