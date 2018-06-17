@@ -1,4 +1,6 @@
-##About##
+About
+=====
+
 
 **interview-test project** is a template for a [Cucumber-jvm](https://github.com/cucumber/cucumber-jvm), JAVA, [Selenium WebDriver](http://www.seleniumhq.org/projects/webdriver/) (supports UI testing) and [JUnit](http://junit.org/) project. 
 
@@ -11,7 +13,7 @@ To get started, create a copy of this project in a directory on your machine (e.
 I have used **interview-test** as my project name just because I have to submit this project as an assignment.
 
 
-##Table of Contents##
+## Table of Contents:
 
 [Modify pom.xml](#modify-pom-xml)
 
@@ -22,7 +24,7 @@ I have used **interview-test** as my project name just because I have to submit 
 [Advanced Cucumber Reporting](#advanced-cucumber-reporting)
 
 
-#Modify pom.xml
+## Modify pom.xml
 
 Modify the pom.xml file according your needs.  
 Use [this](https://maven.apache.org/pom.html) as a guide.
@@ -30,7 +32,7 @@ Use [this](https://maven.apache.org/pom.html) as a guide.
 At a minimum you should supply new values for **groupId** (unique within your organization) and **artifactId** (generally your project name). Changes must be reflected in the folder names of your project.
 
 
-##Installations
+## Installations
 
 Please install all the below software's for running your tests.
         
@@ -41,13 +43,13 @@ Please install all the below software's for running your tests.
         ChromeDriver
         Maven
         
-###Run using the Maven Build configuration
+## Run using the Maven Build configuration
 
 To run your tests on Mac just double click or Run the **RunTestOnMac.sh** file.
 
 To run your tests on Windows just double click or Run the **RunTestOnWindows.cmd** file.
 
-##Advanced Cucumber Reporting
+## Advanced Cucumber Reporting
 
 I have used `maven-cucumber-reporting` for advanced reporting.
 
