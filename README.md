@@ -1,4 +1,4 @@
-##About
+##About##
 
 **interview-test project** is a template for a [Cucumber-jvm](https://github.com/cucumber/cucumber-jvm), JAVA, [Selenium WebDriver](http://www.seleniumhq.org/projects/webdriver/) (supports UI testing) and [JUnit](http://junit.org/) project. 
 
@@ -11,7 +11,7 @@ To get started, create a copy of this project in a directory on your machine (e.
 I have used **interview-test** as my project name just because I have to submit this project as an assignment.
 
 
-##Table of Contents
+##Table of Contents##
 
 [Modify pom.xml](#modify-pom-xml)
 
@@ -23,6 +23,7 @@ I have used **interview-test** as my project name just because I have to submit 
 
 
 #Modify pom.xml
+
 Modify the pom.xml file according your needs.  
 Use [this](https://maven.apache.org/pom.html) as a guide.
 
@@ -47,7 +48,7 @@ To run your tests on Mac just double click or Run the **RunTestOnMac.sh** file.
 To run your tests on Windows just double click or Run the **RunTestOnWindows.cmd** file.
 
 ##Advanced Cucumber Reporting
+
 I have used `maven-cucumber-reporting` for advanced reporting.
 
 Once you have run the test navigate to _/target/cucumber-reports/advanced-reports/cucumber-html-reports/overview-features.html_ to view the html report.
-# interview-test
