@@ -17,20 +17,25 @@ import io.cucumber.java.Scenario;
 import utils.TestContext;
 
 /**
- * Cucumber hooks for browser management
- * Handles browser initialization, cleanup, and screenshot capture
- * Single source of truth for browser initialization
+ * Cucumber hooks for browser lifecycle management.
+ * Handles global browser startup/teardown, per-scenario initialization, and failure screenshot capture.
  */
 public class BrowserHooks {
     private static final Properties props = new Properties();
     private static WebDriver sharedDriver;
     private TestContext testContext;
 
+    /**
+     * Loads external configuration before any tests are run.
+     */
     @BeforeAll
     public static void beforeAll() {
         loadProperties();
     }
 
+    /**
+     * Sets up a new browser session and navigates to the initial URL before each scenario.
+     */
     @Before(order = 0)
     public void beforeScenario() {
         try {
@@ -39,19 +44,18 @@ public class BrowserHooks {
                 if (url == null || url.trim().isEmpty()) {
                     throw new RuntimeException("URL not found in config.properties");
                 }
-
                 sharedDriver = DriverFactory.getInstance().create();
                 sharedDriver.get(url);
             }
-
-            // Initialize TestContext with shared driver
             testContext = new TestContext();
-
         } catch (Exception e) {
             throw new RuntimeException("Test context initialization failed: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Loads configuration properties from file.
+     */
     private static void loadProperties() {
         String configPath = System.getProperty("user.dir") + "/src/test/resources/config.properties";
         try (FileInputStream input = new FileInputStream(configPath)) {
@@ -61,17 +65,22 @@ public class BrowserHooks {
         }
     }
 
+    /**
+     * Captures screenshot on failure and performs per-scenario teardown.
+     */
     @After(order = 1)
     public void afterScenario(Scenario scenario) {
         if (sharedDriver != null && scenario.isFailed()) {
             captureScreenshot(scenario);
         }
-
         if (testContext != null) {
             testContext.tearDown();
         }
     }
 
+    /**
+     * Takes and attaches a failure screenshot to the scenario.
+     */
     private void captureScreenshot(Scenario scenario) {
         try {
             if (sharedDriver instanceof TakesScreenshot) {
@@ -84,6 +93,9 @@ public class BrowserHooks {
         }
     }
 
+    /**
+     * Cleans up after test suite: closes browser and releases driver resources.
+     */
     @AfterAll
     public static void afterAll() {
         if (sharedDriver != null) {
@@ -96,6 +108,11 @@ public class BrowserHooks {
         DriverFactory.quitAllDrivers();
     }
 
+    /**
+     * Gets loaded configuration property by key.
+     * @param key the property name in config
+     * @return the value or null
+     */
     public static String getProperty(String key) {
         return props.getProperty(key);
     }

@@ -128,6 +128,7 @@ You may use [Cucumber tags](https://cucumber.io/docs/cucumber/api/#tags) for sel
 - **Tags**
 - **Error stack traces for failures**
 - **Trends over multiple runs** (if applicable)
+![alt text](image.png)
 
 ---
 

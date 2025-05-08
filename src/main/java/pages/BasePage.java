@@ -2,24 +2,32 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * @author hemanth.shivashankrappa on 16/06/2018
- * @project interview-test
+ * Base class for page objects.
+ * Provides shared WebDriver reference and logging functionality.
  */
-class BasePage {
+public class BasePage {
 
-	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(BasePage.class);
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected WebDriver driver;
 
-	WebDriver driver;
+    /**
+     * Constructor initializes WebDriver and PageFactory elements.
+     * @param driver WebDriver instance to be used by the page object.
+     */
+    public BasePage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(this.driver, this);
+    }
 
-	BasePage(WebDriver driver) {
-		this.driver = driver;
-		PageFactory.initElements(this.driver, this);
-	}
-
-	protected void log(String message) {
-		logger.info(message);
-	}
-
+    /**
+     * Logs informational messages relevant to page actions.
+     * @param message the message to log
+     */
+    protected void log(String message) {
+        logger.info(message);
+    }
 }

@@ -1,31 +1,40 @@
 package dto;
 
 /**
- * @author hemanth.shivashankrappa on 16/06/2018
- * @project interview-test
- */
-
-/**
- * This class is used to store user credentials
- *
- * @param: username and password
+ * Data Transfer Object (DTO) for storing user credentials.
  */
 public class UserDTO {
 	private String username;
 	private String password;
 
-	public String getUserName() {
+	/**
+	 * Gets the username.
+	 * @return the username
+	 */
+	public String getUsername() {
 		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.username = userName;
+	/**
+	 * Sets the username.
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
+	/**
+	 * Gets the password.
+	 * @return the password
+	 */
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 * Sets the password.
+	 * @param password the password to set
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}

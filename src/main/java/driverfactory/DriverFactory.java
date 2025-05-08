@@ -15,12 +15,16 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Factory class for managing WebDriver instances for various browsers.
+ * Supports thread-safe driver usage and automatic driver management.
+ */
 public final class DriverFactory {
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private static final List<WebDriver> allDrivers = new ArrayList<>();
     private static final DriverFactory instance = new DriverFactory();
 
-    // Browser constants
+    // Browser types
     private static final String BROWSER_CHROME = "chrome";
     private static final String BROWSER_FIREFOX = "firefox";
     private static final String BROWSER_EDGE = "edge";
@@ -33,14 +37,29 @@ public final class DriverFactory {
     private static final String HEADLESS_PROPERTY = "headless";
     private static final String BROWSER_PROPERTY = "browser";
 
-    private DriverFactory() {
-        // Private constructor to prevent instantiation
-    }
+    // Private constructor to ensure singleton usage
+    private DriverFactory() {}
 
+    /**
+     * Get singleton instance for factory usage.
+     * @return DriverFactory instance
+     */
     public static DriverFactory getInstance() {
         return instance;
     }
 
+    /**
+     * Creates a new WebDriver instance as per system properties.
+     * Supported browsers: chrome, firefox, edge, safari.
+     * Stores instance in thread-local and all-drivers list for cleanup.
+     *
+     * System properties:
+     * -Dbrowser=[chrome|firefox|edge|safari]
+     * -Dheadless=true|false
+     *
+     * @return newly created WebDriver
+     * @throws IllegalStateException when creation fails or unsupported browser requested
+     */
     public WebDriver create() {
         String browser = System.getProperty(BROWSER_PROPERTY, BROWSER_CHROME).toLowerCase().trim();
         boolean headless = Boolean.parseBoolean(System.getProperty(HEADLESS_PROPERTY, "false"));
@@ -61,10 +80,18 @@ public final class DriverFactory {
         }
     }
 
+    /**
+     * Gets the WebDriver instance for the current thread.
+     * @return WebDriver for current thread, or null if not initialized
+     */
     public static WebDriver getDriver() {
         return driverThreadLocal.get();
     }
 
+    /**
+     * Quits and cleans up all created WebDriver instances.
+     * Recommended to call after test suite execution completes.
+     */
     public static void quitAllDrivers() {
         synchronized (allDrivers) {
             allDrivers.forEach(driver -> {
@@ -81,6 +108,9 @@ public final class DriverFactory {
         driverThreadLocal.remove();
     }
 
+    /**
+     * Quits and cleans up the WebDriver instance for the current thread.
+     */
     public static void quitDriver() {
         WebDriver driver = driverThreadLocal.get();
         if (driver != null) {
@@ -97,6 +127,12 @@ public final class DriverFactory {
         }
     }
 
+    /**
+     * Internal logic for constructing correct WebDriver for given browser/headless configuration.
+     * @param browser browser type as string
+     * @param headless whether to enable headless mode
+     * @return new WebDriver for selected browser
+     */
     private WebDriver createDriver(String browser, boolean headless) {
         switch (browser) {
             case BROWSER_CHROME:
@@ -142,7 +178,7 @@ public final class DriverFactory {
             if (headless) {
                 options.addArguments("--headless");
             }
-            options.addArguments("--start-maximized");
+            // Note: Firefox does not support --start-maximized; consider using set window size if desired.
             return new FirefoxDriver(options);
         } catch (Exception e) {
             throw new IllegalStateException("Failed to initialize Firefox driver: " + e.getMessage(), e);
@@ -175,6 +211,10 @@ public final class DriverFactory {
         }
     }
 
+    /**
+     * Configures timeouts and maximizes browser window for a given driver.
+     * @param driver WebDriver to configure
+     */
     private void configureDriver(WebDriver driver) {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT_TIMEOUT));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(PAGE_LOAD_TIMEOUT));

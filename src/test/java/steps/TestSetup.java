@@ -10,10 +10,17 @@ import driverfactory.DriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 
+/**
+ * Handles test scenario setup and teardown.
+ * Loads configuration, initializes WebDriver, and manages browser session per scenario.
+ */
 public class TestSetup {
     private WebDriver driver;
     private static final Properties props = new Properties();
 
+    /**
+     * Sets up the test scenario: loads properties and opens the application URL.
+     */
     @Before
     public void setUp() {
         try {
@@ -31,6 +38,9 @@ public class TestSetup {
         }
     }
 
+    /**
+     * Loads properties from test resources configuration file.
+     */
     private void loadProperties() {
         String configPath = "src/test/resources/config.properties";
         try (FileInputStream input = new FileInputStream(configPath)) {
@@ -40,6 +50,9 @@ public class TestSetup {
         }
     }
 
+    /**
+     * Cleans up after each scenario by quitting the browser.
+     */
     @After
     public void tearDown() {
         if (driver != null) {
@@ -48,10 +61,19 @@ public class TestSetup {
         }
     }
 
+    /**
+     * Returns the WebDriver used for the test.
+     * @return The active WebDriver instance.
+     */
     public WebDriver getDriver() {
         return driver;
     }
 
+    /**
+     * Returns property value for the given key in the loaded configuration.
+     * @param key property name
+     * @return property value, or null if not present
+     */
     public String getProperty(String key) {
         return props.getProperty(key);
     }
