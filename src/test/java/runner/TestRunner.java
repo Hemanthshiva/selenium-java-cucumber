@@ -1,20 +1,20 @@
 package runner;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "classpath:cucumber",
-        glue = "steps",
-        tags = {"not @wip", "not @ignore", "not @merged"},
+        glue = {"steps"},
+        tags = "not @wip and not @ignore and not @merged",
         monochrome = true,
-        format = {
+        plugin = {
                 "pretty",
-                "html:target/cucumber-reports/cucumber-pretty",
-                "json:target/cucumber-reports/CucumberTestReport.json"
-//                "rerun:target/cucumber-reports/rerun.txt"
+                "html:target/cucumber-reports/cucumber-pretty.html",
+                "json:target/cucumber-reports/CucumberTestReport.json",
+                "junit:target/cucumber-reports/cucumber-results.xml"
         })
 public class TestRunner {
 }

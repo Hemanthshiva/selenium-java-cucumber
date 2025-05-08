@@ -9,11 +9,17 @@ import org.openqa.selenium.support.PageFactory;
  */
 class BasePage {
 
+	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(BasePage.class);
+
 	WebDriver driver;
 
 	BasePage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(this.driver, this);
+	}
+
+	protected void log(String message) {
+		logger.info(message);
 	}
 
 }
